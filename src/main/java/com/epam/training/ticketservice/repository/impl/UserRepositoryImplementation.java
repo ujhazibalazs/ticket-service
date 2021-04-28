@@ -5,16 +5,16 @@ import com.epam.training.ticketservice.domain.User;
 import com.epam.training.ticketservice.repository.UserRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class UserRepositoryImplementation implements UserRepository {
 
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     public UserRepositoryImplementation() {
-        this.users = List.of(new User("admin", "admin", Role.ADMINISTRATOR));
+        this.users.add(new User("admin", "admin", Role.ADMINISTRATOR));
     }
 
     @Override
