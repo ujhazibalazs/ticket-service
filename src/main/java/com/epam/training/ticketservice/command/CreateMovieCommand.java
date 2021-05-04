@@ -2,21 +2,20 @@ package com.epam.training.ticketservice.command;
 
 import com.epam.training.ticketservice.domain.Movie;
 import com.epam.training.ticketservice.repository.MovieRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-public class CreateMovieCommand implements Command {
+@Component
+public class CreateMovieCommand {
 
     private final MovieRepository movieRepository;
-    private final Movie movieToAdd;
 
-    public CreateMovieCommand(MovieRepository movieRepository, Movie movieToAdd) {
+    public CreateMovieCommand(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;
-        this.movieToAdd = movieToAdd;
     }
 
-    @Override
-    public String execute() {
+    public String execute(Movie movieToAdd) {
         Optional<Movie> foundMovie = movieRepository.getAllMovies()
                 .stream()
                 .filter(movie -> movie.getName().equals(movieToAdd.getName()))

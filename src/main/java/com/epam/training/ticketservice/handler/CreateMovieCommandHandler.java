@@ -10,15 +10,14 @@ import org.springframework.shell.standard.ShellMethod;
 @ShellComponent
 public class CreateMovieCommandHandler {
 
-    private final MovieRepository movieRepository;
+    private final CreateMovieCommand createMovieCommand;
 
-    public CreateMovieCommandHandler(MovieRepository movieRepository) {
-        this.movieRepository = movieRepository;
+    public CreateMovieCommandHandler(CreateMovieCommand createMovieCommand) {
+        this.createMovieCommand = createMovieCommand;
     }
 
     @ShellMethod(value = "Create a new movie", key = "create movie")
     public String createMovie(String name, String genre, int lengthInMinutes) {
-        CreateMovieCommand command = new CreateMovieCommand(movieRepository, new Movie(name, Genre.valueOf(genre.toUpperCase()), lengthInMinutes));
-        return command.execute();
+        return createMovieCommand.execute(new Movie(name, Genre.valueOf(genre.toUpperCase()), lengthInMinutes));
     }
 }
