@@ -14,7 +14,8 @@ public class ListMoviesCommand implements Command {
 
     @Override
     public String execute() {
-        String movies = movieRepository.getAllMovies().stream()
+        String movies = movieRepository.getAllMovies()
+                .stream()
                 .map(movie -> movie.getName()
                             + " (" + movie.getGenre().toString().toLowerCase()
                             + ", " + movie.getLengthInMinutes()
