@@ -1,9 +1,11 @@
 package com.epam.training.ticketservice.command;
 
 import com.epam.training.ticketservice.repository.MovieRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
+@Component
 public class ListMoviesCommand implements Command {
 
     private final MovieRepository movieRepository;
@@ -14,11 +16,11 @@ public class ListMoviesCommand implements Command {
 
     @Override
     public String execute() {
-        String movies = movieRepository.getAllMovies()
+        String movies = movieRepository.findAll()
                 .stream()
-                .map(movie -> movie.getName()
-                            + " (" + movie.getGenre().toString().toLowerCase()
-                            + ", " + movie.getLengthInMinutes()
+                .map(movieEntity -> movieEntity.getName()
+                            + " (" + movieEntity.getGenre()
+                            + ", " + movieEntity.getLengthInMinutes()
                             + " minutes)")
                 .collect(Collectors.joining(System.lineSeparator()));
         if (movies.isEmpty()) {

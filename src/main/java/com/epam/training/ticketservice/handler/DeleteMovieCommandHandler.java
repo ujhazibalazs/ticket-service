@@ -1,22 +1,30 @@
 package com.epam.training.ticketservice.handler;
 
 import com.epam.training.ticketservice.command.DeleteMovieCommand;
-import com.epam.training.ticketservice.repository.MovieRepository;
+import com.epam.training.ticketservice.security.Authenticator;
+import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
+import org.springframework.shell.standard.ShellMethodAvailability;
 
 @ShellComponent
 public class DeleteMovieCommandHandler {
 
-    private final MovieRepository movieRepository;
+    private final DeleteMovieCommand deleteMovieCommand;
+    private final Authenticator authenticator;
 
-    public DeleteMovieCommandHandler(MovieRepository movieRepository) {
-        this.movieRepository = movieRepository;
+    public DeleteMovieCommandHandler(DeleteMovieCommand deleteMovieCommand, Authenticator authenticator) {
+        this.deleteMovieCommand = deleteMovieCommand;
+        this.authenticator = authenticator;
     }
 
-    @ShellMethod(value = "Delete a movie", key = "delete movie")
+    @ShellMethod(value = "Deletes a movie", key = "delete movie")
     public String deleteMovie(String name) {
-        DeleteMovieCommand command = new DeleteMovieCommand(movieRepository, name);
-        return command.execute();
+        return deleteMovieCommand.execute(name);
+    }
+
+    @ShellMethodAvailability("delete movie")
+    public Availability isAdminSignedIn() {
+        return authenticator.isAdmin() ? Availability.available() : Availability.unavailable("Permission denied");
     }
 }

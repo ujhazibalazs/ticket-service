@@ -1,30 +1,26 @@
 package com.epam.training.ticketservice.command;
 
-import com.epam.training.ticketservice.domain.Movie;
+import com.epam.training.ticketservice.entity.Movie;
 import com.epam.training.ticketservice.repository.MovieRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-public class UpdateMovieCommand implements Command {
+@Component
+public class UpdateMovieCommand {
 
     private final MovieRepository movieRepository;
-    private final Movie movieToUpdate;
 
-    public UpdateMovieCommand(MovieRepository movieRepository, Movie movieToUpdate) {
+    public UpdateMovieCommand(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;
-        this.movieToUpdate = movieToUpdate;
     }
 
-    @Override
-    public String execute() {
-        Optional<Movie> foundMovie = movieRepository.getAllMovies()
-                .stream()
-                .filter(movie -> movie.getName().equals(movieToUpdate.getName()))
-                .findFirst();
+    public String execute(Movie movieToUpdate) {
+        Optional<Movie> foundMovie = movieRepository.findById(movieToUpdate.getName());
         if (foundMovie.isEmpty()) {
             return "Movie with given name doesn't exist";
         }
-        movieRepository.updateMovie(movieToUpdate);
+        movieRepository.save(movieToUpdate);
         return "Movie updated successfully";
     }
 }

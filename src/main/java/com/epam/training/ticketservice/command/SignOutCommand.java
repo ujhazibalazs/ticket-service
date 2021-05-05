@@ -1,28 +1,25 @@
 package com.epam.training.ticketservice.command;
 
-import com.epam.training.ticketservice.domain.User;
-import com.epam.training.ticketservice.repository.UserRepository;
+import com.epam.training.ticketservice.entity.User;
+import com.epam.training.ticketservice.security.Authenticator;
+import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
+@Component
 public class SignOutCommand implements Command {
 
-    private final UserRepository userRepository;
+    private final Authenticator authenticator;
 
-    public SignOutCommand(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public SignOutCommand(Authenticator authenticator) {
+        this.authenticator = authenticator;
     }
 
     @Override
     public String execute() {
-        Optional<User> loggedInUser = userRepository.getAllUser()
-                .stream()
-                .filter(User::isSignedIn)
-                .findFirst();
-        if (loggedInUser.isEmpty()) {
+        User loggedInUser = authenticator.getLoggedInUser();
+        if (loggedInUser == null) {
             return "You are not signed in";
         }
-        loggedInUser.get().setSignedIn(false);
-        return "Successfully logged out.";
+        authenticator.setLoggedInUser(null);
+        return "Successfully logged out";
     }
 }

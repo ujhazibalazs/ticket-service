@@ -1,24 +1,31 @@
 package com.epam.training.ticketservice.handler;
 
 import com.epam.training.ticketservice.command.UpdateMovieCommand;
-import com.epam.training.ticketservice.domain.Genre;
-import com.epam.training.ticketservice.domain.Movie;
-import com.epam.training.ticketservice.repository.MovieRepository;
+import com.epam.training.ticketservice.entity.Movie;
+import com.epam.training.ticketservice.security.Authenticator;
+import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
+import org.springframework.shell.standard.ShellMethodAvailability;
 
 @ShellComponent
 public class UpdateMovieCommandHandler {
 
-    private final MovieRepository movieRepository;
+    private final UpdateMovieCommand updateMovieCommand;
+    private final Authenticator authenticator;
 
-    public UpdateMovieCommandHandler(MovieRepository movieRepository) {
-        this.movieRepository = movieRepository;
+    public UpdateMovieCommandHandler(UpdateMovieCommand updateMovieCommand, Authenticator authenticator) {
+        this.updateMovieCommand = updateMovieCommand;
+        this.authenticator = authenticator;
     }
 
-    @ShellMethod(value = "Update an existing movie", key = "update movie")
+    @ShellMethod(value = "Updates a movie", key = "update movie")
     public String updateMovie(String name, String genre, int lengthInMinutes) {
-        UpdateMovieCommand command = new UpdateMovieCommand(movieRepository, new Movie(name, Genre.valueOf(genre.toUpperCase()), lengthInMinutes));
-        return command.execute();
+        return updateMovieCommand.execute(new Movie(name, genre, lengthInMinutes));
+    }
+
+    @ShellMethodAvailability("update movie")
+    public Availability isAdminSignedIn() {
+        return authenticator.isAdmin() ? Availability.available() : Availability.unavailable("Permission denied");
     }
 }

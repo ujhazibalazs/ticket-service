@@ -1,6 +1,6 @@
 package com.epam.training.ticketservice.command;
 
-import com.epam.training.ticketservice.domain.Movie;
+import com.epam.training.ticketservice.entity.Movie;
 import com.epam.training.ticketservice.repository.MovieRepository;
 import org.springframework.stereotype.Component;
 
@@ -16,14 +16,11 @@ public class CreateMovieCommand {
     }
 
     public String execute(Movie movieToAdd) {
-        Optional<Movie> foundMovie = movieRepository.getAllMovies()
-                .stream()
-                .filter(movie -> movie.getName().equals(movieToAdd.getName()))
-                .findFirst();
+        Optional<Movie> foundMovie = movieRepository.findById(movieToAdd.getName());
         if (foundMovie.isPresent()) {
-            return "Movie already exists.";
+            return "Movie already exists";
         }
-        movieRepository.addMovie(movieToAdd);
-        return "Movie created successfully.";
+        movieRepository.save(movieToAdd);
+        return "Movie created successfully";
     }
 }

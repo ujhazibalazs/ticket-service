@@ -1,6 +1,6 @@
 package com.epam.training.ticketservice.command;
 
-import com.epam.training.ticketservice.entity.ScreeningEntity;
+import com.epam.training.ticketservice.entity.Screening;
 import com.epam.training.ticketservice.id.ScreeningId;
 import com.epam.training.ticketservice.repository.ScreeningRepository;
 import org.springframework.stereotype.Component;
@@ -24,11 +24,11 @@ public class DeleteScreeningCommand {
         LocalDateTime startDate;
         try {
             startDate = LocalDateTime.parse(startDateString, formatter);
-        }
-        catch (DateTimeParseException exception) {
+        } catch (DateTimeParseException exception) {
             return "Bad date format";
         }
-        Optional<ScreeningEntity> foundScreening = screeningRepository.findById(new ScreeningId(movieName, roomName, startDate));
+        Optional<Screening> foundScreening = screeningRepository
+                .findById(new ScreeningId(movieName, roomName, startDate));
         if (foundScreening.isEmpty()) {
             return "Screening doesn't exist";
         }

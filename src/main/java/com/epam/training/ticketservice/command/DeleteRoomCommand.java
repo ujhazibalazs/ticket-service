@@ -1,23 +1,22 @@
 package com.epam.training.ticketservice.command;
 
-import com.epam.training.ticketservice.entity.RoomEntity;
+import com.epam.training.ticketservice.entity.Room;
 import com.epam.training.ticketservice.repository.RoomRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-public class DeleteRoomCommand implements Command {
+@Component
+public class DeleteRoomCommand {
 
     private final RoomRepository roomRepository;
-    private final String roomToDelete;
 
-    public DeleteRoomCommand(RoomRepository roomRepository, String roomToDelete) {
+    public DeleteRoomCommand(RoomRepository roomRepository) {
         this.roomRepository = roomRepository;
-        this.roomToDelete = roomToDelete;
     }
 
-    @Override
-    public String execute() {
-        Optional<RoomEntity> foundRoom = roomRepository.findById(roomToDelete);
+    public String execute(String roomToDelete) {
+        Optional<Room> foundRoom = roomRepository.findById(roomToDelete);
         if (foundRoom.isEmpty()) {
             return "Room with given name doesn't exist";
         }

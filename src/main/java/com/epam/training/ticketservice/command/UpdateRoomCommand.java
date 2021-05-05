@@ -1,28 +1,27 @@
 package com.epam.training.ticketservice.command;
 
-import com.epam.training.ticketservice.domain.Room;
-import com.epam.training.ticketservice.entity.RoomEntity;
+import com.epam.training.ticketservice.entity.Room;
 import com.epam.training.ticketservice.repository.RoomRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-public class UpdateRoomCommand implements Command {
+@Component
+public class UpdateRoomCommand {
 
     private final RoomRepository roomRepository;
-    private final Room roomToUpdate;
 
-    public UpdateRoomCommand(RoomRepository roomRepository, Room roomToUpdate) {
+    public UpdateRoomCommand(RoomRepository roomRepository) {
         this.roomRepository = roomRepository;
-        this.roomToUpdate = roomToUpdate;
     }
 
-    @Override
-    public String execute() {
-        Optional<RoomEntity> foundRoom = roomRepository.findById(roomToUpdate.getName());
-        if (foundRoom.isEmpty()) {
+    public String execute(String name, int rows, int columns) {
+        Room updatedRoom = new Room(name, rows, columns);
+        Optional<Room> roomToUpdate = roomRepository.findById(updatedRoom.getName());
+        if (roomToUpdate.isEmpty()) {
             return "Room with given name doesn't exist";
         }
-        roomRepository.save(new RoomEntity(roomToUpdate.getName(), roomToUpdate.getRows(), roomToUpdate.getColumns()));
+        roomRepository.save(updatedRoom);
         return "Room successfully updated";
     }
 }

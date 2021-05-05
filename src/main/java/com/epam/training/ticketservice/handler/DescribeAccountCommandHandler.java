@@ -1,22 +1,20 @@
 package com.epam.training.ticketservice.handler;
 
 import com.epam.training.ticketservice.command.DescribeAccountCommand;
-import com.epam.training.ticketservice.repository.UserRepository;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
 @ShellComponent
 public class DescribeAccountCommandHandler {
 
-    private final UserRepository userRepository;
+    private final DescribeAccountCommand describeAccountCommand;
 
-    public DescribeAccountCommandHandler(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public DescribeAccountCommandHandler(DescribeAccountCommand describeAccountCommand) {
+        this.describeAccountCommand = describeAccountCommand;
     }
 
     @ShellMethod(value = "Describes the account currently logged in", key = "describe account")
     public String describeAccount() {
-        DescribeAccountCommand command = new DescribeAccountCommand(userRepository);
-        return command.execute();
+        return describeAccountCommand.execute();
     }
 }
