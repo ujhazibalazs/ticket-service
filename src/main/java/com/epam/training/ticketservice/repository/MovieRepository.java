@@ -1,12 +1,7 @@
 package com.epam.training.ticketservice.repository;
 
-import com.epam.training.ticketservice.domain.Movie;
+import com.epam.training.ticketservice.entity.Movie;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-
-public interface MovieRepository {
-    void addMovie(Movie movieToAdd);
-    void updateMovie(Movie movieToUpdate);
-    void deleteMovie(Movie movieToDelete);
-    List<Movie> getAllMovies();
+public interface MovieRepository extends JpaRepository<Movie, String> {
 }

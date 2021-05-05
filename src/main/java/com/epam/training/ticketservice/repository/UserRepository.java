@@ -1,9 +1,7 @@
 package com.epam.training.ticketservice.repository;
 
-import com.epam.training.ticketservice.domain.User;
+import com.epam.training.ticketservice.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-
-public interface UserRepository {
-    List<User> getAllUser();
+public interface UserRepository extends JpaRepository<User, String> {
 }
