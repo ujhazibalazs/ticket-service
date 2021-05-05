@@ -4,17 +4,17 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class RoomEntity {
+public class Room {
 
     @Id
     private String name;
     private int rows;
     private int columns;
 
-    public RoomEntity() {
+    public Room() {
     }
 
-    public RoomEntity(String name, int rows, int columns) {
+    public Room(String name, int rows, int columns) {
         this.name = name;
         this.rows = rows;
         this.columns = columns;

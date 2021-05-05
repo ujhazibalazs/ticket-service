@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @IdClass(ScreeningId.class)
-public class ScreeningEntity implements Serializable {
+public class Screening implements Serializable {
 
     @Id
     private String movieName;
@@ -19,13 +19,13 @@ public class ScreeningEntity implements Serializable {
     @Id
     private LocalDateTime startDate;
 
-    public ScreeningEntity(String movieName, String roomName, LocalDateTime startDate) {
+    public Screening(String movieName, String roomName, LocalDateTime startDate) {
         this.movieName = movieName;
         this.roomName = roomName;
         this.startDate = startDate;
     }
 
-    public ScreeningEntity() {
+    public Screening() {
     }
 
     public String getMovieName() {
