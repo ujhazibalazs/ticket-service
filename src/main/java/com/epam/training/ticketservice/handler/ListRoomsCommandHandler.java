@@ -13,7 +13,7 @@ public class ListRoomsCommandHandler {
         this.listRoomsCommand = listRoomsCommand;
     }
 
-    @ShellMethod(value = "Lists all the rooms", key = "list rooms")
+    @ShellMethod(value = "Lists all rooms", key = "list rooms")
     public String listRooms() {
         return listRoomsCommand.execute();
     }
