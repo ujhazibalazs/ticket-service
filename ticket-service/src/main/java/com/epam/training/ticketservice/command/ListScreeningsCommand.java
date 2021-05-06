@@ -31,7 +31,7 @@ public class ListScreeningsCommand implements Command {
         for (Screening screening : screenings) {
             Optional<Movie> foundMovie = movieRepository.findById(screening.getMovieName());
             if (foundMovie.isEmpty()) {
-                return "movie doesn't exist in repository";
+                return "Movie doesn't exist in repository";
             }
             lines.add(foundMovie.get().getName()
                     + " ("
