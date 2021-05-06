@@ -26,7 +26,7 @@ public class ListScreeningsCommand implements Command {
     @Override
     public String execute() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        List<Screening> screenings = screeningRepository.findAll();
+        List<Screening> screenings = screeningRepository.findAllByOrderByCreateDate();
         List<String> lines = new ArrayList<>();
         for (Screening screening : screenings) {
             Optional<Movie> foundMovie = movieRepository.findById(screening.getMovieName());
