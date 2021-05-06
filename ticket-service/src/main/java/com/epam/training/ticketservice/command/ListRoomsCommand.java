@@ -18,10 +18,11 @@ public class ListRoomsCommand implements Command {
     public String execute() {
         String rooms = roomRepository.findAll()
                 .stream()
-                .map(roomEntity -> "Room "
-                        + roomEntity.getName() + " with "
-                        + roomEntity.getNumberOfSeats() + " seats, "
-                        + roomEntity.getRows() + " rows and " + roomEntity.getColumns() + " columns")
+                .map(room -> "Room "
+                        + room.getName() + " with "
+                        + room.getNumberOfSeats() + " seats, "
+                        + room.getRows() + " rows and "
+                        + room.getColumns() + " columns")
                 .collect(Collectors.joining(System.lineSeparator()));
         if (rooms.isEmpty()) {
             return "There are no rooms at the moment";

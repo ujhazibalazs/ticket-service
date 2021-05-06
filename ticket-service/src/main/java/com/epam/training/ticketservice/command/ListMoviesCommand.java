@@ -18,9 +18,9 @@ public class ListMoviesCommand implements Command {
     public String execute() {
         String movies = movieRepository.findAll()
                 .stream()
-                .map(movieEntity -> movieEntity.getName()
-                            + " (" + movieEntity.getGenre()
-                            + ", " + movieEntity.getLengthInMinutes()
+                .map(movie -> movie.getName()
+                            + " (" + movie.getGenre()
+                            + ", " + movie.getLengthInMinutes()
                             + " minutes)")
                 .collect(Collectors.joining(System.lineSeparator()));
         if (movies.isEmpty()) {
